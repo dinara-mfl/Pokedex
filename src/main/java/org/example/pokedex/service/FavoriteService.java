@@ -2,6 +2,7 @@ package org.example.pokedex.service;
 
 import org.example.pokedex.dto.FavoriteDto;
 import org.example.pokedex.dto.PokemonDto;
+import org.example.pokedex.dto.UpdateFavoriteDto;
 import org.example.pokedex.exception.FavoriteNotFoundException;
 import org.example.pokedex.model.Favorite;
 import org.example.pokedex.repository.FavoriteRepository;
@@ -53,5 +54,22 @@ public class FavoriteService {
     public void deleteFavorite(String id) {
         Favorite favorite = getFavoriteById(id);
         repository.delete(favorite);
+    }
+
+    public Favorite updateFavorite(String id, UpdateFavoriteDto request) {
+        Favorite favorite = getFavoriteById(id);
+
+        Favorite updatedFavorite = new Favorite(
+                favorite.id(),
+                favorite.pokemonId(),
+                request.nickname(),
+                favorite.pokemonName(),
+                favorite.pictureUrl(),
+                favorite.height(),
+                favorite.weight(),
+                favorite.types()
+        );
+
+        return repository.save(updatedFavorite);
     }
 }

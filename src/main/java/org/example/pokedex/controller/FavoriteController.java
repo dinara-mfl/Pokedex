@@ -2,6 +2,7 @@ package org.example.pokedex.controller;
 
 import jakarta.validation.Valid;
 import org.example.pokedex.dto.FavoriteDto;
+import org.example.pokedex.dto.UpdateFavoriteDto;
 import org.example.pokedex.model.Favorite;
 import org.example.pokedex.service.FavoriteService;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,13 @@ public class FavoriteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteFavorite(@PathVariable("id") String id) {
         service.deleteFavorite(id);
+    }
+
+    @PutMapping("/{id}")
+    public Favorite updateFavorite(
+            @PathVariable("id") String id,
+            @Valid @RequestBody UpdateFavoriteDto request
+    ) {
+        return service.updateFavorite(id, request);
     }
 }
