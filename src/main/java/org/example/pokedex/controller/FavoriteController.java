@@ -7,6 +7,8 @@ import org.example.pokedex.service.FavoriteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/collection")
 public class FavoriteController {
@@ -23,5 +25,21 @@ public class FavoriteController {
             @Valid @RequestBody FavoriteDto request
     ) {
         return service.createFavorite(request);
+    }
+
+    @GetMapping
+    public List<Favorite> getAllFavorites() {
+        return service.getAllFavorites();
+    }
+
+    @GetMapping("/{id}")
+    public Favorite getFavoriteById(@PathVariable("id") String id) {
+        return service.getFavoriteById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFavorite(@PathVariable("id") String id) {
+        service.deleteFavorite(id);
     }
 }
