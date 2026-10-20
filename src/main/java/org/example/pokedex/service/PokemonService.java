@@ -2,6 +2,7 @@ package org.example.pokedex.service;
 
 import org.example.pokedex.dto.PokeApiResponse;
 import org.example.pokedex.dto.PokemonDto;
+import org.example.pokedex.exception.PokemonNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -31,10 +32,7 @@ public class PokemonService {
                     .retrieve()
                     .body(PokeApiResponse.class);
         } catch (HttpClientErrorException.NotFound exception) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Pokémon wurde nicht gefunden"
-            );
+            throw new PokemonNotFoundException(name);
         } catch (RestClientException exception) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_GATEWAY,
@@ -44,10 +42,7 @@ public class PokemonService {
         }
 
         if (response == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_GATEWAY,
-                    "Leere Antwort von PokéAPI"
-            );
+            throw new PokemonNotFoundException(name);
         }
 
         String pictureUrl = null;

@@ -3,7 +3,7 @@ package org.example.pokedex.service;
 import org.example.pokedex.dto.FavoriteDto;
 import org.example.pokedex.dto.PokemonDto;
 import org.example.pokedex.dto.UpdateFavoriteDto;
-import org.example.pokedex.exception.FavoriteNotFoundException;
+import org.example.pokedex.exception.CollectionEntryNotFoundException;
 import org.example.pokedex.model.Favorite;
 import org.example.pokedex.repository.FavoriteRepository;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,7 @@ public class FavoriteService {
 
     public Favorite getFavoriteById(String id) {
         return repository.findById(id)
-                .orElseThrow(() -> new FavoriteNotFoundException(id));
+                .orElseThrow(() -> new CollectionEntryNotFoundException(id));
     }
 
     public void deleteFavorite(String id) {
